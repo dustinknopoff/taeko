@@ -6,6 +6,7 @@ pub trait TaekoSerialTransformer: TaekoCoreDatabase {
     fn from_blob<T>(&self, name: String) -> T where T: serde::de::DeserializeOwned;
 }
 
+#[allow(unused)]
 #[cfg(test)]
 mod tests {
     use super::*;
