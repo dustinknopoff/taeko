@@ -21,34 +21,30 @@ API is unstable, probably undocumented, liable to change at any time, and leak i
 ## Development Brainstorming and Potentional Plans
 
 - [ ] figure out where to include parallel processing
+- [ ] Remove all unwraps
 
-### Taeko-Core
+## Structure
 
-Named `taeko-core`
+### Taeko Core
 
-- [ ] Create a central trait `Context` which describes the process 
-  - [ ] `Context` impls API for adding and running below plugins 
-  - [ ] Add a lifecycle? (Pre-process, process, render, write)? 
-  - [ ] To support dynamically rendered frontends (i.e. Yew), write is a default on `feature` 
-  - [ ] A way of holding on to Salsa Databases 
-  - [ ] A `build()` method which has a default implementation that gets all plugins, iterates, and calls in order of life-cycle
-- [ ] Include `FS` trait and `WebRequest` trait? Or in plugins? `async` not going to work... 
-  - [ ] Go broader?...salsa inputs for file, blob, json, yaml, toml...Forcing the struct implementation to handle async/deserializing
+- [x] Core Database which keeps track of text/blobs
+  - [ ] crate Error type
 
-### Taeko-Plugins
+### Taeko Plugins
 
-In a sub-directory `taeko-plugins`, all prefixed with `taeko`
+3 Categories:
+1. Transformer: a trait/DB describing a translation from text/blob to another content type (example: `taeko-markdown-transformer`)
+2. Source: a struct which executes some code retrieving data to be fed in to DBs (example: `taeko-fs-walker`)
+3. Helper: A struct which is a 'recipe' for common actions, i.e. merging `taeko-fs-walker` and `taeko-markdown-transformer` in to a single object to use.
 
-- [ ] Make FS access in to a proper API
-  - [ ] Expose a Glob/WalkDir-wrapper
-  - [ ] Make Markdown layer in to proper API
-  - [ ] (expose pulldown-cmark options)
-  - [ ] Add optional feature parallel
-  - [ ] Add JSON layer
-  - [ ] Add YAML layer
-  - [ ] Add TOML layer
-- [ ] Make Web Request API?
-  - [ ] Interface with a CMS api?
+- [x] Make FS access in to a proper API
+  - [x] Globbing/Walker-wrapper
+  - [x] Markdown layer
+    - [ ] Expose pulldown-cmark options
+  - [x] Add JSON layer
+  - [x] Add YAML layer
+  - [x] Add TOML layer
+- [ ] Remote access APIs
 - [ ] Image manipulation
 - [ ] CSS/SCSS integration
 - [ ] Adding Search
