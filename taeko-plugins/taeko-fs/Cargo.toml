@@ -1,5 +1,5 @@
 [package]
-authors = ["Dustin Knopoff <dustinknopoff@gmail.com>"]
+authors = ["Dustin Knopoff <rust@knopoff.dev>"]
 edition = "2018"
 name = "taeko-fs"
 version = "0.1.0"

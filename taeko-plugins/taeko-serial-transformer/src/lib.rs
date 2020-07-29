@@ -1,5 +1,5 @@
 use taeko_core::{TaekoCoreDatabase};
-pub trait TaekoJsonTransformer: TaekoCoreDatabase {
+pub trait TaekoSerialTransformer: TaekoCoreDatabase {
 
     fn from_text<T>(&self, name: String) -> T where T: serde::de::DeserializeOwned;
 
@@ -13,43 +13,57 @@ mod tests {
     use std::collections::HashMap;
     use taeko_core::{TaekoCoreDatabaseStorage, salsa};
 
+    mod json {
+        use super::*;
+        #[salsa::database(TaekoCoreDatabaseStorage)]
+        #[derive(Default)]
+        pub struct JsonLoader {
+            storage: salsa::Storage<Self>
+        }
 
-    #[salsa::database(TaekoCoreDatabaseStorage)]
-    #[derive(Default)]
-    struct JsonLoader {
-        storage: salsa::Storage<Self>
+        impl salsa::Database for JsonLoader {}
+
+        #[cfg(feature = "json")]
+        impl TaekoSerialTransformer for JsonLoader {
+
+            fn from_text<T>(&self, name: String) -> T where T: serde::de::DeserializeOwned {
+                serde_json::from_str(&self.text(name)).unwrap()
+            }
+
+            fn from_blob<T>(&self, _name: String) -> T where T: serde::de::DeserializeOwned {
+                todo!();
+            }
+        }
     }
 
-    impl salsa::Database for JsonLoader {}
-
-    #[cfg(feature = "json")]
-    impl TaekoJsonTransformer for JsonLoader {
-
-        fn from_text<T>(&self, name: String) -> T where T: serde::de::DeserializeOwned {
-            serde_json::from_str(&self.text(name)).unwrap()
+    mod yaml {
+        use super::*;
+        #[salsa::database(TaekoCoreDatabaseStorage)]
+        #[derive(Default)]
+        pub struct YamlLoader {
+            storage: salsa::Storage<Self>
         }
 
-        fn from_blob<T>(&self, _name: String) -> T where T: serde::de::DeserializeOwned {
-            todo!();
-        }
-    }
+        impl salsa::Database for YamlLoader {}
 
-    #[cfg(feature = "yaml")]
-    impl TaekoJsonTransformer for JsonLoader {
 
-        fn from_text<T>(&self, name: String) -> T where T: serde::de::DeserializeOwned {
-            serde_yaml::from_str(&self.text(name)).unwrap()
-        }
+        #[cfg(feature = "yaml")]
+        impl TaekoSerialTransformer for YamlLoader {
 
-        fn from_blob<T>(&self, _name: String) -> T where T: serde::de::DeserializeOwned {
-            todo!();
+            fn from_text<T>(&self, name: String) -> T where T: serde::de::DeserializeOwned {
+                serde_yaml::from_str(&self.text(name)).unwrap()
+            }
+
+            fn from_blob<T>(&self, _name: String) -> T where T: serde::de::DeserializeOwned {
+                todo!();
+            }
         }
     }
 
     #[cfg(feature = "json")]
     #[test]
     fn json_works() {
-        let mut json = JsonLoader::default();
+        let mut json = json::JsonLoader::default();
         json.set_text("./test_content/simple.json".to_string(), Arc::new(String::from(r#"{"name": "Taeko"}"#)));
         let actual_map = json.from_text::<HashMap<String, String>>("./test_content/simple.json".to_string());
         let mut expected_map = HashMap::new();
@@ -60,7 +74,7 @@ mod tests {
     #[cfg(feature = "yaml")]
     #[test]
     fn yaml_works() {
-        let mut json = JsonLoader::default();
+        let mut json = yaml::YamlLoader::default();
         json.set_text("./test_content/simple.json".to_string(), Arc::new(String::from(r#"name: Taeko"#)));
         let actual_map = json.from_text::<HashMap<String, String>>("./test_content/simple.json".to_string());
         let mut expected_map = HashMap::new();
