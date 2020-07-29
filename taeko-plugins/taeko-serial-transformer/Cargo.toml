@@ -1,0 +1,19 @@
+[package]
+authors = ["Dustin Knopoff <rust@knopoff.dev>"]
+edition = "2018"
+name = "taeko-serial-transformer"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = "1"
+serde_json = {version = "1", optional = true}
+serde_yaml = {version = "0.8", optional = true}
+taeko-core = {path = "../../taeko-core"}
+toml = {version = "0.5", optional = true}
+
+[features]
+json = ["serde_json"]
+serde_toml = ["toml"]
+yaml = ["serde_yaml"]
