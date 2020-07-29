@@ -55,8 +55,13 @@ In a sub-directory `taeko-plugins`, all prefixed with `taeko`
   - [ ] Example using [Yew](https://crates.io/crates/yew)
 - [ ] Expand upon theory of separating templating in to separate creates that _can_ be made in to lamda Fns, and use for dynamically updating pages at DNS lookup
 
-## Development
+## Development Requirements
 
-- [ ] Development improvements
-  - [ ] hash-names of files
-  - [ ] watching for changes and updating web-preview (as additional plugin)?
+- [ ] hash-names of files
+- [ ] watching for changes and updating web-preview (as additional plugin)?
+
+## Inspirations
+
+- [GatsbyJS](https://github.com/gatsbyjs/gatsby)
+- [Zola](https://github.com/getzola/zola)
+- [Publish](https://github.com/JohnSundell/Publish)
