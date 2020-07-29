@@ -2,9 +2,12 @@
 
 ## WARNING: Not even close to Alpha
 
+API is unstable, probably undocumented, liable to change at any time, and leak implementation details.
+
 ## Core Tenants
 
-1. Designed for quick development cycle, i.e. cache-first (using [**salsa**](https://crates.io/crates/salsa))
+1. Be fast.
+   - Designed for quick development cycle, i.e. cache-first (using [**salsa**](https://crates.io/crates/salsa))
    - watching for file changes should re-run code iff input content changes
    - fetched CMS content should re-run code iff it differs from cached content
 2. Get out of the way as much as possible.
@@ -15,7 +18,11 @@
    - Core modified when existing APIs are incapable of handling a use-case
 5. Unopinionated.
 
-## Taeko-Core
+## Development Brainstorming and Potentional Plans
+
+- [ ] figure out where to include parallel processing
+
+### Taeko-Core
 
 Named `taeko-core`
 
@@ -28,7 +35,15 @@ Named `taeko-core`
 - [ ] Include `FS` trait and `WebRequest` trait? Or in plugins? `async` not going to work... 
   - [ ] Go broader?...salsa inputs for file, blob, json, yaml, toml...Forcing the struct implementation to handle async/deserializing
 
-## Taeko-Plugins
+#### Shipyard Core
+
+Just a re-write of above list that is easier to implement
+
+- [ ] Create a shipyard `World` which contains/maintains entire process
+  - [ ] Add some fn or macro for adding "Systems"/plugins
+  - [ ] plugins are `UniqueViews`, plugin products are regular components, and `salsa` using plugins are `NonSendSync`
+
+### Taeko-Plugins
 
 In a sub-directory `taeko-plugins`, all prefixed with `taeko`
 
@@ -55,7 +70,7 @@ In a sub-directory `taeko-plugins`, all prefixed with `taeko`
   - [ ] Example using [Yew](https://crates.io/crates/yew)
 - [ ] Expand upon theory of separating templating in to separate creates that _can_ be made in to lamda Fns, and use for dynamically updating pages at DNS lookup
 
-## Development Requirements
+### Development Requirements
 
 - [ ] hash-names of files
 - [ ] watching for changes and updating web-preview (as additional plugin)?
@@ -65,3 +80,4 @@ In a sub-directory `taeko-plugins`, all prefixed with `taeko`
 - [GatsbyJS](https://github.com/gatsbyjs/gatsby)
 - [Zola](https://github.com/getzola/zola)
 - [Publish](https://github.com/JohnSundell/Publish)
+- [Arcs](https://github.com/Michael-F-Bryan/arcs)

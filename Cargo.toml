@@ -1,0 +1,11 @@
+[profile.release]
+lto = true
+
+[workspace]
+
+members = [
+  "taeko-core",
+  "taeko-plugins/taeko-fs",
+  "taeko-plugins/taeko-markdown-transformer",
+  "taeko-plugins/taeko-fs-walker",
+]
