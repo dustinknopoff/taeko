@@ -35,14 +35,6 @@ Named `taeko-core`
 - [ ] Include `FS` trait and `WebRequest` trait? Or in plugins? `async` not going to work... 
   - [ ] Go broader?...salsa inputs for file, blob, json, yaml, toml...Forcing the struct implementation to handle async/deserializing
 
-#### Shipyard Core
-
-Just a re-write of above list that is easier to implement
-
-- [ ] Create a shipyard `World` which contains/maintains entire process
-  - [ ] Add some fn or macro for adding "Systems"/plugins
-  - [ ] plugins are `UniqueViews`, plugin products are regular components, and `salsa` using plugins are `NonSendSync`
-
 ### Taeko-Plugins
 
 In a sub-directory `taeko-plugins`, all prefixed with `taeko`
