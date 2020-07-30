@@ -55,10 +55,10 @@ pub fn as_html(db: &dyn MarkdownDatabase, path: String) -> Arc<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use taeko_fs_walker::FSWalker;
-    use taeko_core::{TaekoCoreDatabase,TaekoCoreDatabaseStorage, salsa};
     use std::path::PathBuf;
     use std::sync::Arc;
+    use taeko_core::{salsa, TaekoCoreDatabase, TaekoCoreDatabaseStorage};
+    use taeko_fs_walker::FSWalker;
 
     #[salsa::database(TaekoCoreDatabaseStorage, MarkdownDatabaseStorage)]
     #[derive(Default)]
@@ -71,7 +71,9 @@ mod tests {
 
     impl MarkdownFinder {
         pub fn walk<P>(&mut self, file_types: &[&str], root: P)
-        where P: AsRef<Path> {
+        where
+            P: AsRef<Path>,
+        {
             let files = self.walker.walk(file_types, root);
             files.into_iter().for_each(|(path, contents)| {
                 self.set_text(path, contents);
@@ -83,11 +85,25 @@ mod tests {
     fn test() {
         let mut mf = MarkdownFinder::default();
         mf.walk(&["md"], "../taeko-fs-walker/test_content/");
-        let path = PathBuf::from("../taeko-fs-walker/test_content/11.md").canonicalize().unwrap();
+        let path = PathBuf::from("../taeko-fs-walker/test_content/11.md")
+            .canonicalize()
+            .unwrap();
         let path = path.to_str().unwrap();
-        assert_eq!(Arc::new("---\nname: Dustin\n---\n# Hello World\n".to_string()), mf.text(path.to_string()));
-        assert_eq!(Arc::new(Some(String::from("name: Dustin\n"))), mf.frontmatter(path.to_string()));
-        assert_eq!(Arc::new(String::from("# Hello World\n")), mf.content(path.to_string()));
-        assert_eq!(Arc::new(String::from("<h1>Hello World</h1>\n")), mf.as_html(path.to_string()));
+        assert_eq!(
+            Arc::new("---\nname: Dustin\n---\n# Hello World\n".to_string()),
+            mf.text(path.to_string())
+        );
+        assert_eq!(
+            Arc::new(Some(String::from("name: Dustin\n"))),
+            mf.frontmatter(path.to_string())
+        );
+        assert_eq!(
+            Arc::new(String::from("# Hello World\n")),
+            mf.content(path.to_string())
+        );
+        assert_eq!(
+            Arc::new(String::from("<h1>Hello World</h1>\n")),
+            mf.as_html(path.to_string())
+        );
     }
 }
