@@ -22,6 +22,7 @@ API is unstable, probably undocumented, liable to change at any time, and leak i
 
 - [ ] figure out where to include parallel processing
 - [ ] Remove all unwraps
+- [ ] Reduce allocations
 
 ## Structure
 
@@ -45,17 +46,18 @@ API is unstable, probably undocumented, liable to change at any time, and leak i
   - [x] Add YAML layer
   - [x] Add TOML layer
 - [ ] Remote access APIs
-- [ ] Image manipulation
-- [ ] CSS/SCSS integration
-- [ ] Adding Search
-- [ ] Internationalization?
-- [ ] cached Google Fonts
-- [ ] Offline support
-  - [ ] GUI options (not that you'd want to use the majority of these)
-  - [ ] Example using [Maud](https://crates.io/crates/maud)
-  - [ ] Example using [Iced](https://crates.io/crates/iced)
-  - [ ] Example using [Tera](https://crates.io/crates/tera)
-  - [ ] Example using [Yew](https://crates.io/crates/yew)
+- [ ] UI-facing APIs
+  - [ ] CSS/SCSS integration
+  - [ ] cached Google Fonts
+  - [ ] Internationalization?
+  - [ ] Image manipulation
+  - [ ] Adding Search
+- [ ] Offline support?
+- [ ] GUI options (not that you'd want to use the majority of these)
+- [ ] Example using [Maud](https://crates.io/crates/maud)
+- [ ] Example using [Iced](https://crates.io/crates/iced)
+- [ ] Example using [Tera](https://crates.io/crates/tera)
+- [ ] Example using [Yew](https://crates.io/crates/yew)
 - [ ] Expand upon theory of separating templating in to separate creates that _can_ be made in to lamda Fns, and use for dynamically updating pages at DNS lookup
 
 ### Development Requirements
