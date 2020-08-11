@@ -4,6 +4,8 @@ lto = true
 [workspace]
 
 members = [
+  "taeko",
   "taeko-core",
   "taeko-plugins/*",
+  "examples/*",
 ]
